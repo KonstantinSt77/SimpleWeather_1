@@ -20,7 +20,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QhK-fh-Cuq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-951" y="234"/>
+            <point key="canvasLocation" x="-610" y="258"/>
         </scene>
         <!--Simple Weather-->
         <scene sceneID="tne-QT-ifu">
@@ -35,9 +35,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U0G-tj-0Yl">
-                                <rect key="frame" x="146" y="51" width="308" height="166"/>
+                                <rect key="frame" x="146" y="72" width="308" height="125"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="166" id="c7Y-ln-74Y"/>
+                                    <constraint firstAttribute="height" constant="125" id="c7Y-ln-74Y"/>
                                     <constraint firstAttribute="width" constant="308" id="tdZ-rI-LH8"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="World_Map_Oh_Dots"/>
@@ -379,7 +379,7 @@
                             <constraint firstItem="7IM-bE-qJR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-28.5" id="peE-Ic-Oma"/>
                             <constraint firstItem="Ku2-uV-PCD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-97" id="r8b-yP-wMM"/>
                             <constraint firstItem="k6y-L5-bLG" firstAttribute="top" secondItem="biQ-xu-PP3" secondAttribute="bottom" constant="23" id="rVy-AC-D29"/>
-                            <constraint firstItem="U0G-tj-0Yl" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="51" id="rx6-sp-TaY"/>
+                            <constraint firstItem="U0G-tj-0Yl" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="72" id="rx6-sp-TaY"/>
                             <constraint firstItem="otP-T4-5hO" firstAttribute="top" secondItem="YhY-R7-YH3" secondAttribute="bottom" constant="240" id="srt-Tq-7V7"/>
                             <constraint firstItem="ozh-bE-mBq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-8" id="tU0-KV-crt"/>
                             <constraint firstItem="dfh-lC-XZN" firstAttribute="leading" secondItem="XfL-Yu-A8V" secondAttribute="leading" id="taa-RH-Soa"/>
@@ -475,7 +475,7 @@
         <image name="Bsnow-1" width="203" height="198"/>
         <image name="Bsun-1" width="181" height="177"/>
         <image name="Bsunclouds-1" width="233" height="225"/>
-        <image name="World_Map_Oh_Dots" width="1000" height="711"/>
+        <image name="World_Map_Oh_Dots" width="948" height="517"/>
         <image name="Снимок экрана 2015-12-25 в 22.23.13" width="856" height="1120"/>
     </resources>
 </document>

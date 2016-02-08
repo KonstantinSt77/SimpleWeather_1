@@ -32,7 +32,9 @@ static NSString *const WeatherCityNameUrl = @"/data/2.5/weather?q=%@,uk&appid=37
 - (void)viewDidLoad {[super viewDidLoad];}
 
 - (void)viewWillAppear:(BOOL)animated {
-//parsing data by Map
+    [super viewWillAppear:animated];
+    
+    //parsing data by Map
     
    //read from file
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -45,7 +47,7 @@ static NSString *const WeatherCityNameUrl = @"/data/2.5/weather?q=%@,uk&appid=37
 
     self.name.text = nil;
     
-#warning dont work deleting file 
+#warning wrong weather before starting
     
     //delete file
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -54,6 +56,38 @@ static NSString *const WeatherCityNameUrl = @"/data/2.5/weather?q=%@,uk&appid=37
     if (success) {NSLog(@"success");}
     else{NSLog(@"Could not delete file -:%@ ",[error localizedDescription]);}
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    
+    NSString *userCityName = textField.text;
+    self.name.text = textField.text;
+    userCityName = [userCityName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    textField.text = userCityName;
+    
+    //session
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    //url
+    NSString *urlString = [BasicUrl stringByAppendingString:WeatherCityNameUrl];
+    urlString = [NSString stringWithFormat:urlString, textField.text];
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    //request
+    __weak typeof(self) weakSelf = self;
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                __strong typeof(weakSelf) strongSelf = weakSelf;
+                                                
+                                                //parsing request
+                                                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                                [strongSelf configurationScreenWithDictionary:json];
+                                            }];
+    [dataTask resume];
+    textField.text = nil;
+    return YES;
+}
+
 
 //parsing data by name of the city
 - (void)configurationScreenWithDictionary:(NSDictionary *)weatherDictionary {
@@ -155,38 +189,6 @@ static NSString *const WeatherCityNameUrl = @"/data/2.5/weather?q=%@,uk&appid=37
         }
         
     });
-    
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    
-    NSString *userCityName = textField.text;
-    self.name.text = textField.text;
-    userCityName = [userCityName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    textField.text = userCityName;
-    
-    //session
-    NSURLSession *session = [NSURLSession sharedSession];
-    
-    //url
-    NSString *urlString = [BasicUrl stringByAppendingString:WeatherCityNameUrl];
-    urlString = [NSString stringWithFormat:urlString, textField.text];
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    //request
-        __weak typeof(self) weakSelf = self;
-    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url
-                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                __strong typeof(weakSelf) strongSelf = weakSelf;
-                                    
-                                                //parsing request
-                                                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                [strongSelf configurationScreenWithDictionary:json];
-                                            }];
-    [dataTask resume];
-       textField.text = nil;
-    return YES;
     
 }
 

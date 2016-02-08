@@ -16,7 +16,6 @@ static NSString *const UserCityNameUrl = @"/data/2.5/weather?lat=%@&lon=%@&appid
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @end
 
-
 @implementation SWMapViewController
 
 - (void)viewDidLoad {
@@ -27,32 +26,6 @@ static NSString *const UserCityNameUrl = @"/data/2.5/weather?lat=%@&lon=%@&appid
     [self.locationManager startUpdatingLocation];
     [self.locationManager requestAlwaysAuthorization];
 }
-- (void)configurationScreenWithDictionary:(NSDictionary *)weatherDictionary {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        //write to file
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"weather.txt"];
-        NSDictionary *dict = weatherDictionary;
-        
-        BOOL success = [dict writeToFile:filePath atomically:YES];
-        if (!success) {
-            NSLog(@"error writing");
-        }
-        //back to previous controller
-        [self.navigationController popViewControllerAnimated:YES];
-    });
-    
-}
-
-- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
-{
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 200, 200);
-    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
-    NSLog(@"Location found from Map: %f %f",region.center.latitude,region.center.longitude);
-}
-
 //request to server by tap on the city
 - (IBAction)tapMap:(UILongPressGestureRecognizer *)sender {
     CGPoint point = [sender locationInView:self.mapView];
@@ -69,7 +42,7 @@ static NSString *const UserCityNameUrl = @"/data/2.5/weather?lat=%@&lon=%@&appid
     NSString* latt = [NSString stringWithFormat:@"%f", mapCoordinate.latitude];
     NSString* longg = [NSString stringWithFormat:@"%f", mapCoordinate.longitude];
     NSLog(@"Location found from Ma %@ %@",latt,longg);
-
+    
     //session
     NSURLSession *session = [NSURLSession sharedSession];
     
@@ -89,8 +62,31 @@ static NSString *const UserCityNameUrl = @"/data/2.5/weather?lat=%@&lon=%@&appid
                                                 [strongSelf configurationScreenWithDictionary:json];
                                             }];
     [dataTask resume];
-
+    
+}
+- (void)configurationScreenWithDictionary:(NSDictionary *)weatherDictionary {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        //write to file
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"weather.txt"];
+        NSDictionary *dict = weatherDictionary;
+        
+        BOOL success = [dict writeToFile:filePath atomically:YES];
+        if (!success) {
+            NSLog(@"error writing");
+        }
+        //back to previous controller
+        [self.navigationController popViewControllerAnimated:YES];
+    });
 }
 
+//- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
+//{
+//    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 5, 5);
+//    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+//    NSLog(@"Location found from Map: %f %f",region.center.latitude,region.center.longitude);
+//}
 
 @end
