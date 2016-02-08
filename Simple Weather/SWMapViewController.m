@@ -28,42 +28,53 @@ static NSString *const UserCityNameUrl = @"/data/2.5/weather?lat=%@&lon=%@&appid
 }
 //request to server by tap on the city
 - (IBAction)tapMap:(UILongPressGestureRecognizer *)sender {
-    CGPoint point = [sender locationInView:self.mapView];
-    CLLocationCoordinate2D mapCoordinate = [self.mapView convertPoint:point toCoordinateFromView:self.mapView];
+        if (sender.state == UIGestureRecognizerStateEnded) {
+            NSLog(@"UIGestureRecognizerStateEnded");
+            CGPoint point = [sender locationInView:self.mapView];
+            CLLocationCoordinate2D mapCoordinate = [self.mapView convertPoint:point toCoordinateFromView:self.mapView];
+            
+            //anotation pin
+            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+            annotation.coordinate = mapCoordinate;
+            annotation.title = @"Your City";
+            annotation.subtitle = @"Back to main screen";
+            [self.mapView addAnnotation:annotation];
+            
+            //get coordinates
+            NSString* latt = [NSString stringWithFormat:@"%f", mapCoordinate.latitude];
+            NSString* longg = [NSString stringWithFormat:@"%f", mapCoordinate.longitude];
+            NSLog(@"Location found from Ma %@ %@",latt,longg);
+            
+            //session
+            NSURLSession *session = [NSURLSession sharedSession];
+            
+            //url
+            NSString *urlString = [BasicUrl stringByAppendingString:UserCityNameUrl];
+            urlString = [NSString stringWithFormat:urlString, latt,longg];
+            NSURL *url = [NSURL URLWithString:urlString];
+            
+            //request
+            __weak typeof(self) weakSelf = self;
+            NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url
+                                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                        __strong typeof(weakSelf) strongSelf = weakSelf;
+                                                        
+                                                        //parsing request
+                                                        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                                        [strongSelf configurationScreenWithDictionary:json];
+                                                    }];
+            [dataTask resume];
+        }
+        else if (sender.state == UIGestureRecognizerStateBegan){
+            NSLog(@"UIGestureRecognizerStateBegan.");
+            //Do Whatever You want on Began of Gesture
+        }
+    }
     
-    //anotation pin
-    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    annotation.coordinate = mapCoordinate;
-    annotation.title = @"Your City";
-    annotation.subtitle = @"Back to main screen";
-    [self.mapView addAnnotation:annotation];
     
-    //get coordinates
-    NSString* latt = [NSString stringWithFormat:@"%f", mapCoordinate.latitude];
-    NSString* longg = [NSString stringWithFormat:@"%f", mapCoordinate.longitude];
-    NSLog(@"Location found from Ma %@ %@",latt,longg);
+
     
-    //session
-    NSURLSession *session = [NSURLSession sharedSession];
-    
-    //url
-    NSString *urlString = [BasicUrl stringByAppendingString:UserCityNameUrl];
-    urlString = [NSString stringWithFormat:urlString, latt,longg];
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    //request
-    __weak typeof(self) weakSelf = self;
-    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url
-                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                __strong typeof(weakSelf) strongSelf = weakSelf;
-                                                
-                                                //parsing request
-                                                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                [strongSelf configurationScreenWithDictionary:json];
-                                            }];
-    [dataTask resume];
-    
-}
+
 - (void)configurationScreenWithDictionary:(NSDictionary *)weatherDictionary {
     dispatch_async(dispatch_get_main_queue(), ^{
         
