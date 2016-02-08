@@ -17,8 +17,6 @@ static NSString *const UserCityNameUrl = @"/data/2.5/weather?lat=%@&lon=%@&appid
 @end
 
 
-
-
 @implementation SWMapViewController
 
 - (void)viewDidLoad {
