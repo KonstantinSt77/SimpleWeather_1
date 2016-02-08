@@ -16,6 +16,9 @@ static NSString *const UserCityNameUrl = @"/data/2.5/weather?lat=%@&lon=%@&appid
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @end
 
+
+
+
 @implementation SWMapViewController
 
 - (void)viewDidLoad {
