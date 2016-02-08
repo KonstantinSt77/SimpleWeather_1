@@ -29,8 +29,14 @@ static NSString *const WeatherCityNameUrl = @"/data/2.5/weather?q=%@,uk&appid=37
 
 @implementation SWMainViewController
 
-- (void)viewDidLoad {[super viewDidLoad];}
+- (void)viewDidLoad {[super viewDidLoad];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES
+                                            withAnimation:UIStatusBarAnimationFade];
 
+}
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
