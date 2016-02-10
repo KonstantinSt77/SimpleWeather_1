@@ -53,6 +53,7 @@ static NSString *const WeatherCityNameUrl = @"/data/2.5/weather?q=%@,uk&appid=37
 
     self.name.text = nil;
     
+    
     //delete file
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error;
