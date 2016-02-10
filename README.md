@@ -31,5 +31,5 @@ The speed and stability of the application to crash was maximized.
 **K.S.**
 
 -![alt screen 1](https://raw.githubusercontent.com/KonstantinSt77/TOP_SimpleWeather/master/icon%20simple%20weather/screenshots/Weather1.jpg)
--![alt screen 2](https://raw.githubusercontent.com/KonstantinSt77/TOP_SimpleWeather/master/icon%20simple%20weather/screenshots/Weather2.ipg)
+-![alt screen 2](https://raw.githubusercontent.com/KonstantinSt77/TOP_SimpleWeather/master/icon%20simple%20weather/screenshots/Weather2.jpg)
 
