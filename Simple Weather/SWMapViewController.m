@@ -71,9 +71,6 @@ static NSString *const UserCityNameUrl = @"/data/2.5/weather?lat=%@&lon=%@&appid
         }
     }
     
-    
-
-    
 
 - (void)configurationScreenWithDictionary:(NSDictionary *)weatherDictionary {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -93,11 +90,5 @@ static NSString *const UserCityNameUrl = @"/data/2.5/weather?lat=%@&lon=%@&appid
     });
 }
 
-//- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
-//{
-//    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 5, 5);
-//    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
-//    NSLog(@"Location found from Map: %f %f",region.center.latitude,region.center.longitude);
-//}
 
 @end
